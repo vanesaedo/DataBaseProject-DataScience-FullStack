@@ -1,0 +1,98 @@
+CREATE TABLE "PROFESORADO"(
+    "id_clase" INT NOT NULL,
+    "id_profesor" INT NOT NULL,
+    "id_profesorado" SERIAL NOT NULL
+);
+ALTER TABLE
+    "PROFESORADO" ADD PRIMARY KEY("id_profesorado");
+CREATE TABLE "PROYECTOS"(
+    "id_proyecto" SERIAL NOT NULL,
+    "Nombre_proyecto" VARCHAR(255) NOT NULL,
+    "id_nota" INT NOT NULL
+);
+ALTER TABLE
+    "PROYECTOS" ADD PRIMARY KEY("id_proyecto");
+CREATE TABLE "NOTAS"(
+    "id_nota" SERIAL NOT NULL,
+    "Nota" VARCHAR(255) NOT NULL
+);
+ALTER TABLE
+    "NOTAS" ADD PRIMARY KEY("id_nota");
+CREATE TABLE "PROMOCIÓN"(
+    "id_promoción" SERIAL NOT NULL,
+    "Nombre_promoción" VARCHAR(255) NOT NULL,
+    "Fecha_inicio" DATE NOT NULL,
+    "Fecha_fin" DATE NOT NULL
+);
+ALTER TABLE
+    "PROMOCIÓN" ADD PRIMARY KEY("id_promoción");
+CREATE TABLE "CLASE"(
+    "id_clase" SERIAL NOT NULL,
+    "Nombre" VARCHAR(255) NOT NULL,
+    "id_vertical" INT NOT NULL,
+    "id_promocion" INT NOT NULL,
+    "id_campus" INT NOT NULL
+);
+ALTER TABLE
+    "CLASE" ADD PRIMARY KEY("id_clase");
+CREATE TABLE "CAMPUS"(
+    "id_campus" SERIAL NOT NULL,
+    "Dirección" VARCHAR(255) NOT NULL
+);
+ALTER TABLE
+    "CAMPUS" ADD PRIMARY KEY("id_campus");
+CREATE TABLE "ROL"(
+    "id_rol" SERIAL NOT NULL,
+    "Rol" VARCHAR(255) NOT NULL
+);
+ALTER TABLE
+    "ROL" ADD PRIMARY KEY("id_rol");
+CREATE TABLE "VERTICAL"(
+    "id_vertical" SERIAL NOT NULL,
+    "Nombre_vertical" VARCHAR(255) NOT NULL
+);
+ALTER TABLE
+    "VERTICAL" ADD PRIMARY KEY("id_vertical");
+CREATE TABLE "PROFESORES"(
+    "id_profesor" SERIAL NOT NULL,
+    "Nombre_profesor" VARCHAR(255) NOT NULL,
+    "id_rol" INT NOT NULL
+);
+ALTER TABLE
+    "PROFESORES" ADD PRIMARY KEY("id_profesor");
+CREATE TABLE "FICHA_ALUMNO"(
+    "id_alumno" SERIAL NOT NULL,
+    "Nombre" VARCHAR(255) NOT NULL,
+    "Email" VARCHAR(255) NOT NULL,
+    "id_clase" INT NOT NULL,
+    "id_nota" INT NOT NULL
+);
+ALTER TABLE
+    "FICHA_ALUMNO" ADD PRIMARY KEY("id_alumno");
+CREATE TABLE "MODALIDAD"(
+    "id_modalidad" SERIAL NOT NULL,
+    "Modalidad" VARCHAR(255) NOT NULL,
+    "id_clase" INT NOT NULL
+);
+ALTER TABLE
+    "MODALIDAD" ADD PRIMARY KEY("id_modalidad");
+ALTER TABLE
+    "FICHA_ALUMNO" ADD CONSTRAINT "ficha_alumno_id_nota_foreign" FOREIGN KEY("id_nota") REFERENCES "NOTAS"("id_nota");
+ALTER TABLE
+    "CLASE" ADD CONSTRAINT "clase_id_campus_foreign" FOREIGN KEY("id_campus") REFERENCES "CAMPUS"("id_campus");
+ALTER TABLE
+    "PROFESORADO" ADD CONSTRAINT "profesorado_id_clase_foreign" FOREIGN KEY("id_clase") REFERENCES "CLASE"("id_clase");
+ALTER TABLE
+    "FICHA_ALUMNO" ADD CONSTRAINT "ficha_alumno_id_clase_foreign" FOREIGN KEY("id_clase") REFERENCES "CLASE"("id_clase");
+ALTER TABLE
+    "CLASE" ADD CONSTRAINT "clase_id_vertical_foreign" FOREIGN KEY("id_vertical") REFERENCES "VERTICAL"("id_vertical");
+ALTER TABLE
+    "MODALIDAD" ADD CONSTRAINT "modalidad_id_clase_foreign" FOREIGN KEY("id_clase") REFERENCES "CLASE"("id_clase");
+ALTER TABLE
+    "PROYECTOS" ADD CONSTRAINT "proyectos_id_nota_foreign" FOREIGN KEY("id_nota") REFERENCES "NOTAS"("id_nota");
+ALTER TABLE
+    "PROFESORES" ADD CONSTRAINT "profesores_id_rol_foreign" FOREIGN KEY("id_rol") REFERENCES "ROL"("id_rol");
+ALTER TABLE
+    "PROFESORADO" ADD CONSTRAINT "profesorado_id_profesor_foreign" FOREIGN KEY("id_profesor") REFERENCES "PROFESORES"("id_profesor");
+ALTER TABLE
+    "CLASE" ADD CONSTRAINT "clase_id_promocion_foreign" FOREIGN KEY("id_promocion") REFERENCES "PROMOCIÓN"("id_promoción");
